@@ -207,8 +207,9 @@ $stmt->close();
             <?php endforeach; ?>
         </select>
 
-        <label for="arquivo" class="btn">Selecionar Arquivo:</label>
-        <input type="file" name="arquivo" id="arquivo" required>
+        <label for="arquivo">Selecione o arquivo:</label>
+<input type="file" name="arquivo" id="arquivo" accept=".pdf,.docx,.pptx,.zip" required>
+
 
         <button type="submit" class="">Enviar Arquivo</button>
     </form>

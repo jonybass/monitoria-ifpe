@@ -42,6 +42,16 @@
         .cadastro-container input[type="submit"]:hover {
             background-color: #008000;
         }
+
+        .voltar {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .voltar a {
+            text-decoration: none;
+            color: #006400;
+        }
     </style>
 </head>
 <body>
@@ -49,7 +59,8 @@
 <div class="cadastro-container">
     <h2>Cadastro de Usuário</h2>
     <form action="salvar_usuario.php" method="post">
-        <input type="text" name="usuario" placeholder="Nome de usuário" required>
+        <input type="text" name="usuario" placeholder="Nome do usuário (exibido)" required>
+        <input type="text" name="login" placeholder="Login de acesso" required>
         <input type="password" name="senha" placeholder="Senha" required>
         
         <select name="tipo_usuario" required>
@@ -61,6 +72,9 @@
 
         <input type="submit" value="Cadastrar">
     </form>
+    <div class="voltar">
+        <a href="index.php">Página inicial</a>
+    </div>
 </div>
 
 </body>

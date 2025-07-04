@@ -78,6 +78,13 @@ $monitor = $_SESSION['usuario'];
     </div>
 
     <div class="card">
+    <h3>📋 Minhas Monitorias</h3>
+    <p>Veja as matérias que você cadastrou.</p>
+    <a href="minhas_monitorias.php">Ver Monitorias</a>
+    </div>
+
+
+    <div class="card">
         <h3>🕒 Gerenciar Horários</h3>
         <p>Configure os dias e horários das suas monitorias.</p>
         <a href="horarios.php">Gerenciar Horários</a>

@@ -2,24 +2,24 @@
 session_start();
 include __DIR__ . '/conexao.php';
 
-$usuario = $_POST['usuario'] ?? '';
+$login = $_POST['login'] ?? '';
 $senha = $_POST['senha'] ?? '';
 $tipo = $_POST['tipo_usuario'] ?? '';
 
-if (!$usuario || !$senha || !$tipo) {
+if (!$login || !$senha || !$tipo) {
     mostrarMensagem("❗ Todos os campos são obrigatórios.");
     exit;
 }
 
 switch ($tipo) {
     case 'aluno':
-        $sql = "SELECT * FROM alunos WHERE usuario = ?";
+        $sql = "SELECT * FROM alunos WHERE login = ? AND ativo = 1";
         break;
     case 'monitor':
-        $sql = "SELECT * FROM monitores WHERE usuario = ?";
+        $sql = "SELECT * FROM monitores WHERE login = ? AND ativo = 1";
         break;
     case 'professor':
-        $sql = "SELECT * FROM professores WHERE usuario = ?";
+        $sql = "SELECT * FROM professores WHERE login = ? ";
         break;
     default:
         mostrarMensagem("❌ Tipo de usuário inválido.");
@@ -27,40 +27,44 @@ switch ($tipo) {
 }
 
 $stmt = $conn->prepare($sql);
-$stmt->bind_param("s", $usuario);
+if (!$stmt) {
+    mostrarMensagem("Erro interno ao preparar a consulta.");
+    exit;
+}
+
+$stmt->bind_param("s", $login);
 $stmt->execute();
 $result = $stmt->get_result();
 
 if ($result->num_rows === 1) {
     $user = $result->fetch_assoc();
     if (password_verify($senha, $user['senha'])) {
-        $_SESSION['usuario'] = $usuario;
+        $_SESSION['usuario'] = $user['usuario']; // mantém o usuário real na sessão
         $_SESSION['tipo'] = $tipo;
+        $_SESSION['id_usuario'] = $user['id'];
 
-        // Redireciona
         switch ($tipo) {
             case 'aluno':
-                header("Location: painel_aluno.php");
+                header("Location: /monitoria/painel_aluno.php");
                 break;
             case 'monitor':
-                header("Location: painel_monitor.php");
+                header("Location: /monitoria/painel_monitor.php");
                 break;
             case 'professor':
-                header("Location: painel_professor.php");
+                header("Location: /monitoria/painel_professor.php");
                 break;
         }
         exit;
     } else {
-        mostrarMensagem(" Senha incorreta.");
+        mostrarMensagem("Senha incorreta.");
     }
 } else {
-    mostrarMensagem(" Usuário não encontrado.");
+    mostrarMensagem("Login não encontrado ou inativo.");
 }
 
 $stmt->close();
 $conn->close();
 
-// Função para exibir mensagem com estilo
 function mostrarMensagem($mensagem) {
     echo <<<HTML
 <!DOCTYPE html>

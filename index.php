@@ -65,7 +65,7 @@
     <h2>Login Monitoria</h2>
     
     <form action="login.php" method="post">
-        <input type="text" name="usuario" placeholder="Usuário" required>
+        <input type="text" name="login" placeholder="login" required>
         <input type="password" name="senha" placeholder="Senha" required>
         
         <select name="tipo_usuario" required>

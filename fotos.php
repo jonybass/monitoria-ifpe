@@ -54,9 +54,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $destPath = $uploadDir . $newFileName;
 
             if (move_uploaded_file($fileTmpPath, $destPath)) {
-                // Salvar no banco
-                $stmt = $conn->prepare("INSERT INTO fotos (id_materia, id_monitor, arquivo, data_upload) VALUES (?, ?, ?, NOW())");
+                // Salvar no banco usando os nomes corretos das colunas
+                $stmt = $conn->prepare("INSERT INTO fotos (id_materia, id_monitor, caminho_foto, data_envio) VALUES (?, ?, ?, NOW())");
                 $stmt->bind_param("iis", $id_materia, $id_monitor, $newFileName);
+
+
                 if ($stmt->execute()) {
                     $mensagem = "Foto enviada com sucesso!";
                 } else {
@@ -104,14 +106,13 @@ $stmt->close();
     .foto-item img { max-width: 100%; height: auto; border-radius: 4px; }
     .foto-info { font-size: 0.9em; margin-top: 6px; }
     .voltar {
-            text-align: center;
-            margin-top: 20px;
-        }
-
-        .voltar a {
-            text-decoration: none;
-            color: #006400;
-        }
+        text-align: center;
+        margin-top: 20px;
+    }
+    .voltar a {
+        text-decoration: none;
+        color: #006400;
+    }
 </style>
 </head>
 <body>
@@ -142,17 +143,19 @@ $stmt->close();
     <div class="fotos-grid">
         <?php foreach ($fotos as $foto): ?>
             <div class="foto-item">
-                <img src="uploads/<?= htmlspecialchars($foto['arquivo']) ?>" alt="Foto de monitoria">
+                <img src="uploads/<?= htmlspecialchars($foto['caminho_foto']) ?>" alt="Foto de monitoria">
                 <div class="foto-info">
                     <strong><?= htmlspecialchars($foto['materia_nome']) ?></strong><br>
-                    <?= date('d/m/Y H:i', strtotime($foto['data_upload'])) ?>
+                <?= date('d/m/Y H:i', strtotime($foto['data_envio'])) ?>
                 </div>
             </div>
         <?php endforeach; ?>
     </div>
 <?php endif; ?>
+
 <div class="voltar">
-        <a href="painel_monitor.php">← Voltar ao Painel</a>
-    </div>
+    <a href="painel_monitor.php">← Voltar ao Painel</a>
+</div>
+
 </body>
 </html>

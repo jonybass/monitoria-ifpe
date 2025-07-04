@@ -15,7 +15,8 @@ if (isset($_GET['excluir_id'])) {
     $stmt = $conn->prepare("UPDATE monitores SET ativo = 0 WHERE id = ?");
     $stmt->bind_param("i", $id);
     if ($stmt->execute()) {
-        $msg = "Monitor excluído (inativado) com sucesso.";
+header("Location: /monitoria/painel_professor.php?pagina=monitores&msg=sucesso");
+        exit;
     } else {
         $msg = "Erro ao excluir monitor.";
     }
@@ -71,11 +72,14 @@ $monitores = $result->fetch_all(MYSQLI_ASSOC);
 
 <h2>Gerenciar Monitores</h2>
 
-<?php if (isset($msg)): ?>
-    <p style="color: green;"><?= htmlspecialchars($msg) ?></p>
+<?php if (isset($_GET['msg']) && $_GET['msg'] === 'sucesso'): ?>
+    <p style="color: green;">Monitor excluído com sucesso.</p>
+<?php elseif (isset($msg)): ?>
+    <p style="color: red;"><?= htmlspecialchars($msg) ?></p>
 <?php endif; ?>
 
-<form method="GET" class="filtro">
+<form method="GET" class="filtro" action="/monitoria/painel_professor.php">
+    <input type="hidden" name="pagina" value="monitores">
     <input type="text" name="filtro_nome" placeholder="Filtrar por nome de usuário" value="<?= htmlspecialchars($filtro_nome) ?>">
     <button type="submit">Filtrar</button>
 </form>
@@ -98,7 +102,9 @@ $monitores = $result->fetch_all(MYSQLI_ASSOC);
                     <td><?= htmlspecialchars($monitor['usuario']) ?></td>
                     <td>
                         <a href="editar_monitor.php?id=<?= $monitor['id'] ?>" class="btn-edit">Editar</a>
-                        <a href="?excluir_id=<?= $monitor['id'] ?>" onclick="return confirm('Deseja realmente excluir este monitor?');" class="btn-delete">Excluir</a>
+<a href="/monitoria/painel_professor.php?pagina=monitores&excluir_id=<?= $monitor['id'] ?>"
+                           onclick="return confirm('Deseja realmente excluir este monitor?');"
+                           class="btn-delete">Excluir</a>
                     </td>
                 </tr>
             <?php endforeach; ?>

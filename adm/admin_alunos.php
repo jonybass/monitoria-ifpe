@@ -1,5 +1,5 @@
 <?php
-if (session_status() !== PHP_SESSION_ACTIVE) {
+if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 if (!isset($_SESSION['usuario']) || $_SESSION['tipo'] !== 'professor') {
@@ -15,24 +15,24 @@ if (isset($_GET['excluir_id'])) {
     $stmt = $conn->prepare("UPDATE alunos SET ativo = 0 WHERE id = ?");
     $stmt->bind_param("i", $id);
     if ($stmt->execute()) {
-        $msg = "Aluno excluído (inativado) com sucesso.";
+        header("Location: /monitoria/painel_professor.php?pagina=alunos&msg=sucesso");
+        exit;
     } else {
         $msg = "Erro ao excluir aluno.";
     }
-    $stmt->close();
 }
 
-// Filtro por nome de usuário
+// Filtro por nome
 $filtro_nome = $_GET['filtro_nome'] ?? '';
 
 $sql = "SELECT * FROM alunos WHERE ativo = 1";
 $params = [];
-$types = "";
+$types = '';
 
 if ($filtro_nome) {
     $sql .= " AND usuario LIKE ?";
     $params[] = "%$filtro_nome%";
-    $types .= "s";
+    $types .= 's';
 }
 
 $stmt = $conn->prepare($sql);
@@ -42,21 +42,49 @@ if ($params) {
 $stmt->execute();
 $result = $stmt->get_result();
 $alunos = $result->fetch_all(MYSQLI_ASSOC);
-$stmt->close();
 ?>
+
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Gerenciar Alunos</title>
+    <style>
+        body { font-family: Arial, sans-serif; background: #f4f4f4; padding: 20px; }
+        table { border-collapse: collapse; width: 100%; background: white; margin-top: 15px; }
+        th, td { padding: 10px; border: 1px solid #ddd; text-align: center; }
+        th { background-color: #006400; color: white; }
+        .btn-edit, .btn-delete {
+            padding: 5px 10px;
+            text-decoration: none;
+            border-radius: 3px;
+            font-size: 14px;
+        }
+        .btn-edit { background-color: #28a745; color: white; }
+        .btn-delete { background-color: #dc3545; color: white; }
+        .filtro { margin-top: 15px; }
+        input[type="text"] { padding: 6px; width: 250px; }
+        button { padding: 6px 12px; background-color: #006400; color: white; border: none; border-radius: 3px; cursor: pointer; }
+        button:hover { background-color: #008000; }
+    </style>
+</head>
+<body>
 
 <h2>Gerenciar Alunos</h2>
 
-<?php if (isset($msg)): ?>
-    <p style="color: green;"><?= htmlspecialchars($msg) ?></p>
+<?php if (isset($_GET['msg']) && $_GET['msg'] === 'sucesso'): ?>
+    <p style="color: green;">Aluno excluído com sucesso.</p>
+<?php elseif (isset($msg)): ?>
+    <p style="color: red;"><?= htmlspecialchars($msg) ?></p>
 <?php endif; ?>
 
-<form method="GET" action="">
+<form method="GET" class="filtro" action="/monitoria/painel_professor.php">
+    <input type="hidden" name="pagina" value="alunos">
     <input type="text" name="filtro_nome" placeholder="Filtrar por nome de usuário" value="<?= htmlspecialchars($filtro_nome) ?>">
     <button type="submit">Filtrar</button>
 </form>
 
-<table border="1" cellpadding="8" cellspacing="0" style="margin-top:15px; width:100%; background:#fff;">
+<table>
     <thead>
         <tr>
             <th>ID</th>
@@ -73,11 +101,16 @@ $stmt->close();
                     <td><?= $aluno['id'] ?></td>
                     <td><?= htmlspecialchars($aluno['usuario']) ?></td>
                     <td>
-                        <a href="editar_aluno.php?id=<?= $aluno['id'] ?>" style="background:#28a745; color:#fff; padding:5px 10px; text-decoration:none; border-radius:3px;">Editar</a>
-                        <a href="?excluir_id=<?= $aluno['id'] ?>" onclick="return confirm('Deseja realmente excluir este aluno?');" style="background:#dc3545; color:#fff; padding:5px 10px; text-decoration:none; border-radius:3px;">Excluir</a>
+                        <a href="/monitoria/editar/editar_aluno.php?id=<?= $aluno['id'] ?>" class="btn-edit">Editar</a>
+                        <a href="/monitoria/painel_professor.php?pagina=alunos&excluir_id=<?= $aluno['id'] ?>"
+                           onclick="return confirm('Deseja realmente excluir este aluno?');"
+                           class="btn-delete">Excluir</a>
                     </td>
                 </tr>
             <?php endforeach; ?>
         <?php endif; ?>
     </tbody>
 </table>
+
+</body>
+</html>
