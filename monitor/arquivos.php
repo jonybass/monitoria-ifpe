@@ -5,7 +5,7 @@ if (!isset($_SESSION['usuario']) || $_SESSION['tipo'] !== 'monitor') {
     exit;
 }
 
-include 'conexao.php';
+include '../conexao.php';
 
 $usuario = $_SESSION['usuario'];
 

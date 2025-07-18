@@ -74,44 +74,44 @@ $monitor = $_SESSION['usuario'];
     <div class="card">
         <h3>📚 Cadastrar Matéria</h3>
         <p>Adicione uma nova matéria que você irá monitorar.</p>
-        <a href="cadastro_materia.php">Cadastrar Matéria</a>
+        <a href="monitor/cadastro_materia.php">Cadastrar Matéria</a>
     </div>
 
     <div class="card">
     <h3>📋 Minhas Monitorias</h3>
     <p>Veja as matérias que você cadastrou.</p>
-    <a href="minhas_monitorias.php">Ver Monitorias</a>
+    <a href="monitor/minhas_monitorias.php">Ver Monitorias</a>
     </div>
 
 
     <div class="card">
         <h3>🕒 Gerenciar Horários</h3>
         <p>Configure os dias e horários das suas monitorias.</p>
-        <a href="horarios.php">Gerenciar Horários</a>
+        <a href="monitor/horarios.php">Gerenciar Horários</a>
     </div>
 
     <div class="card">
         <h3>👨‍🎓 Alunos da Monitoria</h3>
         <p>Adicione os alunos inscritos nas suas matérias.</p>
-        <a href="alunos.php">Gerenciar Alunos</a>
+        <a href="monitor/alunos.php">Gerenciar Alunos</a>
     </div>
 
     <div class="card">
         <h3>🖼️ Evidências em Fotos</h3>
         <p>Envie fotos para comprovar a realização da monitoria.</p>
-        <a href="fotos.php">Enviar Fotos</a>
+        <a href="monitor/fotos.php">Enviar Fotos</a>
     </div>
 
     <div class="card">
         <h3>📎 Arquivos de Apoio</h3>
         <p>Anexe arquivos (PDF, slides, exercícios...)</p>
-        <a href="arquivos.php">Enviar Arquivos</a>
+        <a href="monitor/arquivos.php">Enviar Arquivos</a>
     </div>
 
     <div class="card">
         <h3>📄 Relatórios Mensais</h3>
         <p>Gere o relatório oficial de frequência (Anexo III) em PDF.</p>
-        <a href="relatorio_filtro.php">Gerar Relatório</a>
+        <a href="monitor/relatorio_filtro.php">Gerar Relatório</a>
     </div>
 </main>
 

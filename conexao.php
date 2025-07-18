@@ -1,8 +1,8 @@
 <?php
-$host = "localhost";
+$host = "localhost:3306";
 $db = "ifpe_monitoria";
 $user = "root"; // Altere se necessário
-$pass = "jony0892";     // Altere se necessário
+$pass = "root";     // Altere se necessário
 
 $conn = new mysqli($host, $user, $pass, $db);
 

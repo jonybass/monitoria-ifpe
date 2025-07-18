@@ -15,7 +15,7 @@ if (isset($_GET['excluir_id'])) {
     $stmt = $conn->prepare("UPDATE alunos SET ativo = 0 WHERE id = ?");
     $stmt->bind_param("i", $id);
     if ($stmt->execute()) {
-        header("Location: /monitoria/painel_professor.php?pagina=alunos&msg=sucesso");
+        header("Location: /monitoria-ifpe/painel_professor.php?pagina=alunos&msg=sucesso");
         exit;
     } else {
         $msg = "Erro ao excluir aluno.";
@@ -101,8 +101,8 @@ $alunos = $result->fetch_all(MYSQLI_ASSOC);
                     <td><?= $aluno['id'] ?></td>
                     <td><?= htmlspecialchars($aluno['usuario']) ?></td>
                     <td>
-                        <a href="/monitoria/editar/editar_aluno.php?id=<?= $aluno['id'] ?>" class="btn-edit">Editar</a>
-                        <a href="/monitoria/painel_professor.php?pagina=alunos&excluir_id=<?= $aluno['id'] ?>"
+                        <a href="/monitoria-ifpe/editar/editar_aluno.php?id=<?= $aluno['id'] ?>" class="btn-edit">Editar</a>
+                        <a href="/monitoria-ifpe/adm/admin_alunos.php?pagina=alunos&excluir_id=<?= $aluno['id'] ?>"
                            onclick="return confirm('Deseja realmente excluir este aluno?');"
                            class="btn-delete">Excluir</a>
                     </td>

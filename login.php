@@ -45,13 +45,13 @@ if ($result->num_rows === 1) {
 
         switch ($tipo) {
             case 'aluno':
-                header("Location: /monitoria/painel_aluno.php");
+                header("Location: /monitoria-ifpe/painel_aluno.php");
                 break;
             case 'monitor':
-                header("Location: /monitoria/painel_monitor.php");
+                header("Location: /monitoria-ifpe/painel_monitor.php");
                 break;
             case 'professor':
-                header("Location: /monitoria/painel_professor.php");
+                header("Location: /monitoria-ifpe/painel_professor.php");
                 break;
         }
         exit;

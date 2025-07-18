@@ -15,7 +15,7 @@ if (isset($_GET['excluir_id'])) {
     $stmt = $conn->prepare("UPDATE monitores SET ativo = 0 WHERE id = ?");
     $stmt->bind_param("i", $id);
     if ($stmt->execute()) {
-header("Location: /monitoria/painel_professor.php?pagina=monitores&msg=sucesso");
+header("Location: /monitoria-ifpe/painel_professor.php?pagina=monitores&msg=sucesso");
         exit;
     } else {
         $msg = "Erro ao excluir monitor.";
@@ -101,8 +101,8 @@ $monitores = $result->fetch_all(MYSQLI_ASSOC);
                     <td><?= $monitor['id'] ?></td>
                     <td><?= htmlspecialchars($monitor['usuario']) ?></td>
                     <td>
-                        <a href="editar_monitor.php?id=<?= $monitor['id'] ?>" class="btn-edit">Editar</a>
-<a href="/monitoria/painel_professor.php?pagina=monitores&excluir_id=<?= $monitor['id'] ?>"
+                        <a href="adm/editar_monitor.php?id=<?= $monitor['id'] ?>" class="btn-edit">Editar</a>
+<a href="/monitoria-ifpe/adm/admin_monitores.php?pagina=monitores&excluir_id=<?= $monitor['id'] ?>"
                            onclick="return confirm('Deseja realmente excluir este monitor?');"
                            class="btn-delete">Excluir</a>
                     </td>

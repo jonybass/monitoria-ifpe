@@ -5,7 +5,7 @@ if (!isset($_SESSION['usuario']) || $_SESSION['tipo'] !== 'monitor') {
     exit;
 }
 
-include 'conexao.php';
+include '../conexao.php';
 
 $usuario = $_SESSION['usuario'];
 $stmt = $conn->prepare("SELECT id FROM monitores WHERE usuario = ?");

@@ -5,7 +5,7 @@ if (!isset($_SESSION['usuario']) || $_SESSION['tipo'] !== 'monitor') {
     exit;
 }
 
-include __DIR__ . '/conexao.php';
+include  '../conexao.php';
 
 // Pega o usuário logado do monitor
 $usuario_monitor = $_SESSION['usuario'];
